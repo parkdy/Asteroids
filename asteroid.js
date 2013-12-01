@@ -29,4 +29,12 @@
 
 		return [vx, vy];
 	};
+
+	Asteroid.prototype.move = function(interval, dimX, dimY) {
+		Asteroids.MovingObject.prototype.move.call(this, interval, dimX, dimY);
+
+		// Make it wrap around if it reaches the edge of the screen
+		this.pos[0] = (this.pos[0] + dimX) % dimX;
+		this.pos[1] = (this.pos[1] + dimY) % dimY;
+	};
 })(this);

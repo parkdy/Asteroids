@@ -10,7 +10,7 @@
 
 	// Velocity is in pixels/second
 	// Interval is in milliseconds
-	MovingObject.prototype.move = function(interval) {
+	MovingObject.prototype.move = function(interval, dimX, dimY) {
 		this.pos[0] += this.vel[0] * interval / 1000;
 		this.pos[1] += this.vel[1] * interval / 1000;
 	};
