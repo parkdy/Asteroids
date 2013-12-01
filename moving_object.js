@@ -8,9 +8,11 @@
 		this.color = color;
 	};
 
+	// Velocity is in pixels/second
+	// Interval is in milliseconds
 	MovingObject.move = function(interval) {
-		this.pos[0] += this.vel[0] * interval;
-		this.pos[1] += this.vel[1] * interval;
+		this.pos[0] += this.vel[0] * interval / 1000;
+		this.pos[1] += this.vel[1] * interval / 1000;
 	};
 
 	MovingObject.draw = function(ctx) {
