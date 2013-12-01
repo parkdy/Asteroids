@@ -3,11 +3,13 @@
 
 	var Game = Asteroids.Game = function(ctx) {
 		this.ctx = ctx;
+		this.interval = 1000/(Game.FPS); // milliseconds 
 
 		this.asteroids = [];
 		this.addAsteroids(Game.NUM_ASTEROIDS);
 
-		this.interval = 1000/(Game.FPS); // milliseconds 
+		this.ship = new Asteroids.Ship([Math.floor(Game.DIM_X/2),
+										Math.floor(Game.DIM_Y/2)]);
 	};
 
 	Game.DIM_X = 500;
@@ -30,6 +32,8 @@
 		this.asteroids.forEach(function(asteroid) {
 			asteroid.draw(self.ctx);
 		});
+
+		this.ship.draw(this.ctx);
 	};
 
 	Game.prototype.move = function() {
@@ -37,17 +41,34 @@
 		this.asteroids.forEach(function(asteroid) {
 			asteroid.move(self.interval);
 		});
+
+		this.ship.move(this.interval);
 	};
 
 	Game.prototype.step = function() {
 		this.move();
 		this.draw();
+		this.checkCollisions();
 	};
 
 	Game.prototype.start = function() {
 		var self = this;
-		var intervalID = setInterval(function() {
+		this.intervalID = setInterval(function() {
 			self.step();
 		}, self.interval);
 	};
+
+	Game.prototype.checkCollisions = function() {
+		var self = this;
+		this.asteroids.forEach(function(asteroid) {
+			if (self.ship.isCollidedWith(asteroid)) {
+				self.stop();
+				alert("You lost! Humanity is doomed.");
+			}
+		});
+	}
+
+	Game.prototype.stop = function() {
+		clearInterval(this.intervalID);
+	}
 })(this);
