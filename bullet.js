@@ -14,6 +14,6 @@
 	Bullet.inherits(Asteroids.MovingObject);
 
 	Bullet.RADIUS = 2;
-	Bullet.COLOR = "black";
+	Bullet.COLOR = "lightGreen";
 	Bullet.SPEED = 50/1; // pixels/second
 })(this);

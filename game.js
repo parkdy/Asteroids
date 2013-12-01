@@ -18,6 +18,7 @@
 	Game.DIM_Y = 500;
 	Game.FPS = 30; // Frames per second
 	Game.NUM_ASTEROIDS = 10;
+	Game.BACKGROUND_COLOR = "black"
 
 	Game.prototype.addAsteroids = function(numAsteroids) {
 		for (var i = 0; i < numAsteroids; i++) {
@@ -70,6 +71,8 @@
 	};
 
 	Game.prototype.checkCollisions = function() {
+		// Check collisions between ship and asteroids
+
 		var self = this;
 		this.asteroids.forEach(function(asteroid) {
 			if (self.ship.isCollidedWith(asteroid)) {
@@ -77,6 +80,20 @@
 				alert("You lost! Humanity is doomed.");
 			}
 		});
+
+		// Check collisions between bullets and asteroids
+		numBullets = this.bullets.length;
+		for (var i = numBullets - 1; i >= 0 ; i--) {
+			numAsteroids = this.asteroids.length;
+			for (var j = numAsteroids - 1; j >= 0; j--) {
+				if (this.bullets[i].isCollidedWith(this.asteroids[j])) {
+					this.removeAsteroid(j);
+					numAsteroids--;
+					this.removeBullet(i);
+					numBullets--;
+				}
+			}
+		}
 	};
 
 	Game.prototype.stop = function() {
@@ -110,5 +127,13 @@
 
 	Game.prototype.fireBullet = function() {
 		this.bullets.push(this.ship.fireBullet());
+	};
+
+	Game.prototype.removeAsteroid = function(index) {
+		this.asteroids.splice(index, 1);
+	};
+
+	Game.prototype.removeBullet = function(index) {
+		this.bullets.splice(index, 1);
 	};
 })(this);

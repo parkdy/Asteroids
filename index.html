@@ -12,14 +12,18 @@
 	    <script type="application/javascript" src="bullet.js"></script>
 	    <script type="application/javascript" src="game.js"></script>
 	</head>
+
 	<body>
-	    <canvas width="500" 
-	    		height="500">
-	    </canvas>
+	    <canvas></canvas>
 
 	    <script type="application/javascript">
 	        var canvas = document.getElementsByTagName("canvas")[0];
-	        new Asteroids.Game(canvas.getContext("2d")).start();
+	        canvas.width = Asteroids.Game.DIM_X;
+	        canvas.height = Asteroids.Game.DIM_Y;
+	        canvas.style.background = Asteroids.Game.BACKGROUND_COLOR;
+
+	        var game = new Asteroids.Game(canvas.getContext("2d"));
+	        game.start();
 	    </script>
 	</body>
 </html>

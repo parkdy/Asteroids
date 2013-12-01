@@ -12,7 +12,7 @@
 	Ship.inherits(Asteroids.MovingObject);
 
 	Ship.RADIUS = 10;
-	Ship.COLOR = "black";
+	Ship.COLOR = "lightGray";
 	Ship.FORWARD_IMPULSE = 5/1; // 5 pixels/second per impulse
 	Ship.REVERSE_IMPULSE = 2/1; // 2 pixels/second per impulse
 	Ship.TURN_IMPULSE = 10 * (Math.PI / 180); // 10 deg per impulse
