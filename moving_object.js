@@ -2,8 +2,8 @@
 	var Asteroids = root.Asteroids = (root.Asteroids || {});
 
 	var MovingObject = Asteroids.MovingObject = function(pos, vel, radius, color) {
-		this.pos = pos;
-		this.vel = vel;
+		this.pos = [pos[0], pos[1]];
+		this.vel = [vel[0], vel[1]];
 		this.radius = radius;
 		this.color = color;
 	};

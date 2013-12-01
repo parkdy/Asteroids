@@ -10,6 +10,8 @@
 
 		this.asteroids = [];
 		this.addAsteroids(Game.NUM_ASTEROIDS);
+
+		this.bullets = [];
 	};
 
 	Game.DIM_X = 500;
@@ -30,22 +32,24 @@
 		}
 	};
 
+	Game.prototype.movingObjects = function() {
+		return [this.ship].concat(this.asteroids).concat(this.bullets);
+	};
+
 	Game.prototype.draw = function() {
 		this.ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
 
 		var self = this;
-		this.asteroids.forEach(function(asteroid) {
-			asteroid.draw(self.ctx);
-		});
 
-		this.ship.draw(this.ctx);
+		this.movingObjects().forEach(function(obj) {
+			obj.draw(self.ctx);
+		});
 	};
 
 	Game.prototype.move = function() {
 		var self = this;
-		var movingObjects = [this.ship].concat(this.asteroids);
 
-		movingObjects.forEach(function(obj) {
+		this.movingObjects().forEach(function(obj) {
 			obj.move(self.interval, Game.DIM_X, Game.DIM_Y);
 		});
 	};
@@ -81,6 +85,7 @@
 
 	Game.prototype.bindKeyHandlers = function() {
 		var ship = this.ship;
+		var self = this;
 
 		key("up", function() {
 			ship.power(ship.getImpulse("forward"));
@@ -97,5 +102,13 @@
 		key("right", function() {
 			ship.power(ship.getImpulse("rightturn"));
 		});
-	}
+
+		key("space", function() {
+			self.fireBullet();
+		});
+	};
+
+	Game.prototype.fireBullet = function() {
+		this.bullets.push(this.ship.fireBullet());
+	};
 })(this);

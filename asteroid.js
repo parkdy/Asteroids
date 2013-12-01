@@ -10,7 +10,7 @@
 
 	Asteroid.inherits(Asteroids.MovingObject);
 
-	Asteroid.RADIUS = 15;
+	Asteroid.RADIUS = 20;
 	Asteroid.COLOR = "gray";
 	Asteroid.SPEED = 25/1; // pixels/second
 

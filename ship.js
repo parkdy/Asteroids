@@ -92,5 +92,9 @@
 		}
 
 		return impulse;
-	}
+	};
+
+	Ship.prototype.fireBullet = function() {
+		return new Asteroids.Bullet(this.pos, this.direction);
+	};
 })(this);
