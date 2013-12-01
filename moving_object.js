@@ -10,12 +10,12 @@
 
 	// Velocity is in pixels/second
 	// Interval is in milliseconds
-	MovingObject.move = function(interval) {
+	MovingObject.prototype.move = function(interval) {
 		this.pos[0] += this.vel[0] * interval / 1000;
 		this.pos[1] += this.vel[1] * interval / 1000;
 	};
 
-	MovingObject.draw = function(ctx) {
+	MovingObject.prototype.draw = function(ctx) {
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
 
@@ -31,7 +31,7 @@
 		ctx.fill();
 	};
 
-	MovingObject.isCollidedWith = function(otherObject) {
+	MovingObject.prototype.isCollidedWith = function(otherObject) {
 		var dx = otherObject.pos[0] - this.pos[0];
 		var dy = otherObject.pos[1] - this.pos[1];
 		var dist = Math.sqrt(dx*dx + dy*dy);

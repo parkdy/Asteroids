@@ -5,18 +5,20 @@
 		Asteroids.MovingObject.call(this, pos,
 										  vel,
 										  Asteroid.RADIUS,
-										  Asteroid.COLOR)
+										  Asteroid.COLOR);
 	};
 
-	Asteroid.inherits(MovingObject);
+	Asteroid.inherits(Asteroids.MovingObject);
 
-	Asteroid.RADIUS = 5;
-	Asteroid.COLOR = "brown";
-	Asteroid.SPEED = 5/1; // 5 pixels/second
+	Asteroid.RADIUS = 15;
+	Asteroid.COLOR = "gray";
+	Asteroid.SPEED = 25/1; // pixels/second
 
 	Asteroid.randomAsteroid = function(dimX, dimY) {
 		var x = Math.floor(Math.random() * dimX);
 		var y = Math.floor(Math.random() * dimY);
+
+		return new Asteroid([x,y], Asteroid.randomVel());
 	};
 
 	// Random angle, constant speed (in pixels/second)
