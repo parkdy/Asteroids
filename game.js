@@ -106,22 +106,27 @@
 
 		key("up", function() {
 			ship.power(ship.getImpulse("forward"));
+			return false;
 		});
 
 		key("down", function() {
 			ship.power(ship.getImpulse("reverse"));
+			return false;
 		});
 
 		key("left", function() {
 			ship.power(ship.getImpulse("leftturn"));
+			return false;
 		});
 
 		key("right", function() {
 			ship.power(ship.getImpulse("rightturn"));
+			return false;
 		});
 
 		key("space", function() {
 			self.fireBullet();
+			return false;
 		});
 	};
 

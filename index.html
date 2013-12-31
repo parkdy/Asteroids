@@ -1,29 +1,67 @@
+<!-- First load DOM -->
+
 <!DOCTYPE html>
 <html>
 	<head>
 	    <title>Asteroids</title>
-
-	    <script type="application/javascript" src="keymaster.js"></script>
-
-	    <script type="application/javascript" src="inherits.js"></script>
-	    <script type="application/javascript" src="moving_object.js"></script>
-	    <script type="application/javascript" src="asteroid.js"></script>
-	    <script type="application/javascript" src="ship.js"></script>
-	    <script type="application/javascript" src="bullet.js"></script>
-	    <script type="application/javascript" src="game.js"></script>
 	</head>
 
 	<body>
-	    <canvas></canvas>
+	    <h2>Asteroids</h2>
 
-	    <script type="application/javascript">
-	        var canvas = document.getElementsByTagName("canvas")[0];
-	        canvas.width = Asteroids.Game.DIM_X;
-	        canvas.height = Asteroids.Game.DIM_Y;
-	        canvas.style.background = Asteroids.Game.BACKGROUND_COLOR;
+			<p>You are humanity's last hope! Destroy all the asteroids and don't get hit!</p>
 
-	        var game = new Asteroids.Game(canvas.getContext("2d"));
-	        game.start();
-	    </script>
+			<canvas></canvas>
+
+			<h4>Controls</h4>
+			<table>
+				<tr>
+					<td>Up</td>
+					<td>Speed up</td>
+				</tr>
+				<tr>
+					<td>Down</td>
+					<td>Slow down</td>
+				</tr>
+				<tr>
+					<td>Left</td>
+					<td>Turn left</td>
+				</tr>
+				<tr>
+					<td>Right</td>
+					<td>Turn right</td>
+				</tr>
+				<tr>
+					<td>Space</td>
+					<td>Fire cannons</td>
+				</tr>
+			</table>
 	</body>
 </html>
+
+
+
+<!-- Then load game files -->
+
+<script type="application/javascript" src="keymaster.js"></script>
+
+<script type="application/javascript" src="inherits.js"></script>
+<script type="application/javascript" src="moving_object.js"></script>
+<script type="application/javascript" src="asteroid.js"></script>
+<script type="application/javascript" src="ship.js"></script>
+<script type="application/javascript" src="bullet.js"></script>
+<script type="application/javascript" src="game.js"></script>
+
+
+
+<!-- Finally start the game -->
+
+<script type="application/javascript">
+    var canvas = document.getElementsByTagName("canvas")[0];
+    canvas.width = Asteroids.Game.DIM_X;
+    canvas.height = Asteroids.Game.DIM_Y;
+    canvas.style.background = Asteroids.Game.BACKGROUND_COLOR;
+
+    var game = new Asteroids.Game(canvas.getContext("2d"));
+    game.start();
+</script>
