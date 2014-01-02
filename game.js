@@ -26,13 +26,17 @@
 	Game.prototype.restart = function() {
 		this.ship = new Asteroids.Ship([Math.floor(Game.DIM_X/2),
 										Math.floor(Game.DIM_Y/2)]);
-
+										
 		this.asteroids = [];
 		this.addAsteroids(Game.NUM_ASTEROIDS);
 
 		this.bullets = [];
 		
 		this.score = 0;
+		
+	    while (key._downKeys.length > 0) {
+	       key._downKeys.pop();
+	    }
 	};
 	
 	Game.prototype.addAsteroids = function(numAsteroids) {
@@ -74,7 +78,26 @@
 		});
 	};
 
-	Game.prototype.step = function() {
+	Game.prototype.step = function() {	
+		var ship = this.ship;
+		
+		if (key.isPressed('up')) {
+			ship.power(ship.getImpulse("forward"));
+		} else if (key.isPressed('down')) {
+			ship.power(ship.getImpulse("reverse"));
+		}
+
+		if (key.isPressed('left')) {
+			ship.power(ship.getImpulse("leftturn"));
+		} else if (key.isPressed('right')) {
+			ship.power(ship.getImpulse("rightturn"));
+		}
+
+		if (key.isPressed('space') && ship.canFire) {
+			this.fireBullet();
+		}
+
+		
 		this.move();
 		this.draw();
 		this.checkCollisions();
@@ -149,34 +172,12 @@
 	Game.prototype.bindKeyHandlers = function() {
 		var ship = this.ship;
 		var self = this;
-
-		key("up", function() {
-			ship.power(ship.getImpulse("forward"));
-			return false;
-		});
-
-		key("down", function() {
-			ship.power(ship.getImpulse("reverse"));
-			return false;
-		});
-
-		key("left", function() {
-			ship.power(ship.getImpulse("leftturn"));
-			return false;
-		});
-
-		key("right", function() {
-			ship.power(ship.getImpulse("rightturn"));
-			return false;
-		});
-
-		key("space", function() {
-			self.fireBullet();
-			return false;
-		});
 		
-		
-		
+		["up" , "down", "left", "right", "space"].forEach(function (k) {
+			key(k, function() {
+				return false;
+			});
+		});
 	};
 
 	Game.prototype.fireBullet = function() {

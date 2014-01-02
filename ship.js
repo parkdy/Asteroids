@@ -7,6 +7,13 @@
 										  Ship.RADIUS,
 										  Ship.COLOR);
 		this.direction = 0; // Orientation angle (positive clockwise from +x)
+		
+		this.canFire = true;
+		
+		var self = this;
+		this.intervalID = setInterval(function() {
+			self.canFire = true;
+		}, Ship.COOLDOWN);
 	};
 
 	Ship.inherits(Asteroids.MovingObject);
@@ -16,6 +23,7 @@
 	Ship.FORWARD_IMPULSE = 5/1; // 5 pixels/second per impulse
 	Ship.REVERSE_IMPULSE = 2/1; // 2 pixels/second per impulse
 	Ship.TURN_IMPULSE = 10 * (Math.PI / 180); // 10 deg per impulse
+	Ship.COOLDOWN = 300; // 0.3 seconds
 
 	Ship.prototype.draw = function(ctx) {
 		// Show collision circle
@@ -95,7 +103,8 @@
 		return impulse;
 	};
 
-	Ship.prototype.fireBullet = function() {
+	Ship.prototype.fireBullet = function() {		
+		this.canFire = false;
 		return new Asteroids.Bullet(this.pos, this.direction);
 	};
 })(this);

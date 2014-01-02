@@ -12,7 +12,7 @@
 
 	Asteroid.RADIUS = 20;
 	Asteroid.COLOR = "brown";
-	Asteroid.SPEED = 25/1; // pixels/second
+	Asteroid.SPEED = 50/1; // pixels/second
 
 	Asteroid.randomAsteroid = function(dimX, dimY) {
 		// Spawn asteroid at edge of screen

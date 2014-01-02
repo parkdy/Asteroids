@@ -290,6 +290,7 @@
   global.key.getPressedKeyCodes = getPressedKeyCodes;
   global.key.noConflict = noConflict;
   global.key.unbind = unbindKey;
+  global.key._downKeys = _downKeys;
 
   if(typeof module !== 'undefined') module.exports = key;
 
