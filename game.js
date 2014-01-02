@@ -103,6 +103,9 @@
 				}
 			}
 		}
+		
+		// Replace asteroids that were hit
+		this.addAsteroids(10-this.asteroids.length); 
 	};
 
 	Game.prototype.stop = function() {

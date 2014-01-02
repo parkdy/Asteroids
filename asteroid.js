@@ -15,8 +15,21 @@
 	Asteroid.SPEED = 25/1; // pixels/second
 
 	Asteroid.randomAsteroid = function(dimX, dimY) {
-		var x = Math.floor(Math.random() * dimX);
-		var y = Math.floor(Math.random() * dimY);
+		// Spawn asteroid at edge of screen
+		var x;
+		var y;
+		
+		if (Math.floor(Math.random() * 2)) {
+			// Left or right side
+			x = Math.round(Math.random()) * dimX;
+			// Random y
+			y = Math.floor(Math.random() * dimY)
+		} else {
+			// Random x
+			x = Math.floor(Math.random() * dimX);
+			// Top or bottom side
+			y = Math.round(Math.random()) * dimY;
+		}
 
 		return new Asteroid([x,y], Asteroid.randomVel());
 	};
