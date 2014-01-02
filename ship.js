@@ -18,6 +18,23 @@
 	Ship.TURN_IMPULSE = 10 * (Math.PI / 180); // 10 deg per impulse
 
 	Ship.prototype.draw = function(ctx) {
+		// Show collision circle
+		ctx.strokeStyle = this.color;
+		ctx.lineWidth = 1;
+
+		ctx.beginPath();
+
+		ctx.arc(
+			this.pos[0],
+			this.pos[1],
+			this.radius,
+			0,
+			2 * Math.PI,
+			false
+		);
+
+		ctx.stroke();
+		
 		// Make a triangular ship pointing in direction angle		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
@@ -37,22 +54,6 @@
 
 		ctx.fill();
 
-		// Show collision circle
-		ctx.strokeStyle = this.color;
-		ctx.lineWidth = 1;
-
-		ctx.beginPath();
-
-		ctx.arc(
-			this.pos[0],
-			this.pos[1],
-			this.radius,
-			0,
-			2 * Math.PI,
-			false
-		);
-
-		ctx.stroke();
 	};
 
 	// Impulse is [dVx, dVy, dAngle]

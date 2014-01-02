@@ -12,6 +12,13 @@
 		this.addAsteroids(Game.NUM_ASTEROIDS);
 
 		this.bullets = [];
+		
+		var self = this;
+		
+		key("p", function () {
+			self.togglePaused();
+			return false;
+		});
 	};
 
 	Game.DIM_X = 500;
@@ -66,7 +73,9 @@
 		this.intervalID = setInterval(function() {
 			self.step();
 		}, self.interval);
-
+		
+		this.paused = false;
+		
 		this.bindKeyHandlers();
 	};
 
@@ -98,7 +107,24 @@
 
 	Game.prototype.stop = function() {
 		clearInterval(this.intervalID);
+		this.paused = true;
+		
+		["up" , "down", "left", "right", "space"].forEach(function (k) {
+			key.unbind(k);
+		});
+							
+		this.ctx.font="40px Georgia";
+		this.ctx.fillStyle="green"
+		this.ctx.fillText("PAUSED",Game.DIM_X/2 - 75 ,Game.DIM_Y/2+ 15);
 	};
+	
+	Game.prototype.togglePaused = function () {
+		if (this.paused) {
+			this.start();
+		} else {
+			this.stop();
+		}
+	}
 
 	Game.prototype.bindKeyHandlers = function() {
 		var ship = this.ship;
@@ -128,6 +154,9 @@
 			self.fireBullet();
 			return false;
 		});
+		
+		
+		
 	};
 
 	Game.prototype.fireBullet = function() {
