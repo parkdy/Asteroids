@@ -1,10 +1,10 @@
 (function(root) {
 	var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-	var Asteroid = Asteroids.Asteroid = function(pos, vel) {
+	var Asteroid = Asteroids.Asteroid = function(pos, vel, radius) {
 		Asteroids.MovingObject.call(this, pos,
 										  vel,
-										  Asteroid.RADIUS,
+										  radius || Asteroid.RADIUS,
 										  Asteroid.COLOR);
 	};
 
@@ -14,24 +14,29 @@
 	Asteroid.COLOR = "brown";
 	Asteroid.SPEED = 50/1; // pixels/second
 
-	Asteroid.randomAsteroid = function(dimX, dimY) {
-		// Spawn asteroid at edge of screen
+	Asteroid.randomAsteroid = function(dimX, dimY, pos, radius) {		
 		var x;
 		var y;
 		
-		if (Math.floor(Math.random() * 2)) {
-			// Left or right side
-			x = Math.round(Math.random()) * dimX;
-			// Random y
-			y = Math.floor(Math.random() * dimY)
+		if (pos) {
+			x = pos[0];
+			y = pos[1];
 		} else {
-			// Random x
-			x = Math.floor(Math.random() * dimX);
-			// Top or bottom side
-			y = Math.round(Math.random()) * dimY;
+			// Spawn asteroid at edge of screen		
+			if (Math.floor(Math.random() * 2)) {
+				// Left or right side
+				x = Math.round(Math.random()) * dimX;
+				// Random y
+				y = Math.floor(Math.random() * dimY)
+			} else {
+				// Random x
+				x = Math.floor(Math.random() * dimX);
+				// Top or bottom side
+				y = Math.round(Math.random()) * dimY;
+			}
 		}
 
-		return new Asteroid([x,y], Asteroid.randomVel());
+		return new Asteroid([x,y], Asteroid.randomVel(), radius);
 	};
 
 	// Random angle, constant speed (in pixels/second)

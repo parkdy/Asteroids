@@ -39,13 +39,15 @@
 	    }
 	};
 	
-	Game.prototype.addAsteroids = function(numAsteroids) {
+	Game.prototype.addAsteroids = function(numAsteroids, pos, radius) {
 		for (var i = 0; i < numAsteroids; i++) {
 			var asteroid = null;
 			
 			do {
 				asteroid = Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
-															 Game.DIM_Y);
+															 Game.DIM_Y,
+														 	 pos,
+														 	 radius);
 			} while (asteroid.isCollidedWith(this.ship));
 
 			this.asteroids.push(asteroid);
@@ -127,24 +129,37 @@
 				}
 			}
 		});
-
+		
+		this.checkBulletHits();
+	};
+	
+	Game.prototype.checkBulletHits = function () {
 		// Check collisions between bullets and asteroids
 		numBullets = this.bullets.length;
 		for (var i = numBullets - 1; i >= 0 ; i--) {
 			numAsteroids = this.asteroids.length;
 			for (var j = numAsteroids - 1; j >= 0; j--) {
 				if (this.bullets[i].isCollidedWith(this.asteroids[j])) {
-					this.removeAsteroid(j);
-					numAsteroids--;
 					this.removeBullet(i);
 					numBullets--;
+					
+					var asteroid = this.asteroids[j];
+	
+					if (asteroid.radius !== Asteroids.Asteroid.RADIUS) {
+						numAsteroids--;
+					} else {
+						this.addAsteroids(2, asteroid.pos, asteroid.radius/2);
+						numAsteroids++;
+					}
+					
+					this.removeAsteroid(j);
 					
 					this.score++;
 				}
 			}
 		}
 		
-		// Replace asteroids that were hit
+		// Replace asteroids that were destroyed
 		this.addAsteroids(10-this.asteroids.length); 
 	};
 
