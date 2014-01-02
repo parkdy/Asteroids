@@ -13,6 +13,9 @@
 
 		this.bullets = [];
 		
+		this.score = 0;
+		
+		// Bind pause key
 		var self = this;
 		
 		key("p", function () {
@@ -52,6 +55,10 @@
 		this.movingObjects().forEach(function(obj) {
 			obj.draw(self.ctx);
 		});
+		
+		this.ctx.font="20px Sans-Serif";
+		this.ctx.fillStyle="gray"
+		this.ctx.fillText("Score: " + this.score, 20, 30);
 	};
 
 	Game.prototype.move = function() {
@@ -100,6 +107,8 @@
 					numAsteroids--;
 					this.removeBullet(i);
 					numBullets--;
+					
+					this.score++;
 				}
 			}
 		}
@@ -116,9 +125,9 @@
 			key.unbind(k);
 		});
 							
-		this.ctx.font="40px Georgia";
+		this.ctx.font="40px Sans-Serif";
 		this.ctx.fillStyle="green"
-		this.ctx.fillText("PAUSED",Game.DIM_X/2 - 75 ,Game.DIM_Y/2+ 15);
+		this.ctx.fillText("PAUSED", Game.DIM_X/2 - 75 ,Game.DIM_Y/2+ 15);
 	};
 	
 	Game.prototype.togglePaused = function () {
