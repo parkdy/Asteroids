@@ -14,36 +14,33 @@
 	Asteroid.COLOR = "brown";
 	Asteroid.SPEED = 50/1; // pixels/second
 
-	Asteroid.randomAsteroid = function(dimX, dimY, pos, radius) {		
+	Asteroid.randomAsteroid = function(dimX, dimY) {		
 		var x;
 		var y;
-		
-		if (pos) {
-			x = pos[0];
-			y = pos[1];
+
+		// Spawn asteroid at edge of screen		
+		if (Math.floor(Math.random() * 2)) {
+			// Left or right side
+			x = Math.round(Math.random()) * dimX;
+			// Random y
+			y = Math.floor(Math.random() * dimY)
 		} else {
-			// Spawn asteroid at edge of screen		
-			if (Math.floor(Math.random() * 2)) {
-				// Left or right side
-				x = Math.round(Math.random()) * dimX;
-				// Random y
-				y = Math.floor(Math.random() * dimY)
-			} else {
-				// Random x
-				x = Math.floor(Math.random() * dimX);
-				// Top or bottom side
-				y = Math.round(Math.random()) * dimY;
-			}
+			// Random x
+			x = Math.floor(Math.random() * dimX);
+			// Top or bottom side
+			y = Math.round(Math.random()) * dimY;
 		}
 
-		return new Asteroid([x,y], Asteroid.randomVel(), radius);
+		return new Asteroid([x,y],
+							Asteroid.randomVel(Asteroid.SPEED),
+							Asteroid.RADIUS);
 	};
 
 	// Random angle, constant speed (in pixels/second)
-	Asteroid.randomVel = function() {
+	Asteroid.randomVel = function(speed) {
 		var angle = Math.random() * (2 * Math.PI);
-		var vx = Asteroid.SPEED * Math.cos(angle);
-		var vy = Asteroid.SPEED * Math.sin(angle);
+		var vx = speed * Math.cos(angle);
+		var vy = speed * Math.sin(angle);
 
 		return [vx, vy];
 	};
@@ -54,5 +51,20 @@
 		// Make it wrap around if it reaches the edge of the screen
 		this.pos[0] = (this.pos[0] + dimX) % dimX;
 		this.pos[1] = (this.pos[1] + dimY) % dimY;
+	};
+
+	Asteroid.prototype.splitAsteroids = function() {
+		var x = this.pos[0];
+		var y = this.pos[1];
+		
+		var direction = Math.atan2(this.vel[1], this.vel[0]);
+
+		vel1 = [Asteroid.SPEED * Math.cos(direction + Math.PI/6),
+				Asteroid.SPEED * Math.sin(direction + Math.PI/6)];
+		vel2 = [Asteroid.SPEED * Math.cos(direction - Math.PI/6),
+				Asteroid.SPEED * Math.sin(direction - Math.PI/6)];
+
+		return [new Asteroid([x,y], vel1, this.radius/2),
+				new Asteroid([x,y], vel2, this.radius/2)];
 	};
 })(this);

@@ -105,6 +105,6 @@
 
 	Ship.prototype.fireBullet = function() {		
 		this.canFire = false;
-		return new Asteroids.Bullet(this.pos, this.direction);
+		return new Asteroids.Bullet(this);
 	};
 })(this);

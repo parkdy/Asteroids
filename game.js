@@ -39,15 +39,13 @@
 	    }
 	};
 	
-	Game.prototype.addAsteroids = function(numAsteroids, pos, radius) {
+	Game.prototype.addAsteroids = function(numAsteroids) {
 		for (var i = 0; i < numAsteroids; i++) {
 			var asteroid = null;
 			
 			do {
 				asteroid = Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
-															 Game.DIM_Y,
-														 	 pos,
-														 	 radius);
+															 Game.DIM_Y);
 			} while (asteroid.isCollidedWith(this.ship));
 
 			this.asteroids.push(asteroid);
@@ -148,12 +146,14 @@
 					if (asteroid.radius !== Asteroids.Asteroid.RADIUS) {
 						numAsteroids--;
 					} else {
-						this.addAsteroids(2, asteroid.pos, asteroid.radius/2);
+						var self = this;
+						asteroid.splitAsteroids().forEach(function(a) {
+							self.asteroids.push(a);
+						});
 						numAsteroids++;
 					}
 					
 					this.removeAsteroid(j);
-					
 					this.score++;
 				}
 			}
