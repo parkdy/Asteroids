@@ -15,5 +15,5 @@
 
 	Bullet.RADIUS = 2;
 	Bullet.COLOR = "lightGreen";
-	Bullet.SPEED = 50/1; // pixels/second
+	Bullet.SPEED = 125/1; // pixels/second
 })(this);

@@ -23,7 +23,7 @@
 	Ship.FORWARD_IMPULSE = 5/1; // 5 pixels/second per impulse
 	Ship.REVERSE_IMPULSE = 2/1; // 2 pixels/second per impulse
 	Ship.TURN_IMPULSE = 10 * (Math.PI / 180); // 10 deg per impulse
-	Ship.COOLDOWN = 300; // 0.3 seconds
+	Ship.COOLDOWN = 200; // 0.2 seconds
 
 	Ship.prototype.draw = function(ctx) {
 		// Show collision circle
