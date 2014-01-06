@@ -1,7 +1,10 @@
 (function(root) {
 	var Asteroids = root.Asteroids = (root.Asteroids || {});
 
+
+
 	var Asteroid = Asteroids.Asteroid = function(pos, vel, radius) {
+		// Call parent class's constructor
 		Asteroids.MovingObject.call(this, pos,
 										  vel,
 										  radius || Asteroid.RADIUS,
@@ -10,9 +13,14 @@
 
 	Asteroid.inherits(Asteroids.MovingObject);
 
+
+
+	// Constants
 	Asteroid.RADIUS = 20;
 	Asteroid.COLOR = "brown";
 	Asteroid.SPEED = 50/1; // pixels/second
+
+
 
 	Asteroid.randomAsteroid = function(dimX, dimY) {		
 		var x;
@@ -36,6 +44,7 @@
 							Asteroid.RADIUS);
 	};
 
+
 	// Random angle, constant speed (in pixels/second)
 	Asteroid.randomVel = function(speed) {
 		var angle = Math.random() * (2 * Math.PI);
@@ -45,6 +54,7 @@
 		return [vx, vy];
 	};
 
+
 	Asteroid.prototype.move = function(interval, dimX, dimY) {
 		Asteroids.MovingObject.prototype.move.call(this, interval, dimX, dimY);
 
@@ -53,16 +63,22 @@
 		this.pos[1] = (this.pos[1] + dimY) % dimY;
 	};
 
+
+	// Split asteroid into two smaller asteroids
 	Asteroid.prototype.splitAsteroids = function() {
 		var x = this.pos[0];
 		var y = this.pos[1];
 		
 		var direction = Math.atan2(this.vel[1], this.vel[0]);
+		var dir1 = direction + Math.PI/6;
+		var dir2 = direction - Math.PI/6;
+		var speed = Asteroid.SPEED;
 
-		vel1 = [Asteroid.SPEED * Math.cos(direction + Math.PI/6),
-				Asteroid.SPEED * Math.sin(direction + Math.PI/6)];
-		vel2 = [Asteroid.SPEED * Math.cos(direction - Math.PI/6),
-				Asteroid.SPEED * Math.sin(direction - Math.PI/6)];
+
+		vel1 = [speed * Math.cos(dir1),
+				speed * Math.sin(dir1)];
+		vel2 = [speed * Math.cos(dir2),
+				speed * Math.sin(dir2)];
 
 		return [new Asteroid([x,y], vel1, this.radius/2),
 				new Asteroid([x,y], vel2, this.radius/2)];

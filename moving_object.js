@@ -1,12 +1,16 @@
 (function(root) {
 	var Asteroids = root.Asteroids = (root.Asteroids || {});
 
+
+
 	var MovingObject = Asteroids.MovingObject = function(pos, vel, radius, color) {
 		this.pos = [pos[0], pos[1]];
 		this.vel = [vel[0], vel[1]];
 		this.radius = radius;
 		this.color = color;
 	};
+
+
 
 	// Velocity is in pixels/second
 	// Interval is in milliseconds
@@ -15,7 +19,9 @@
 		this.pos[1] += this.vel[1] * interval / 1000;
 	};
 
+
 	MovingObject.prototype.draw = function(ctx) {
+		// Draw a filled circle to represent the object
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
 
@@ -30,6 +36,7 @@
 
 		ctx.fill();
 	};
+
 
 	MovingObject.prototype.isCollidedWith = function(otherObject) {
 		var dx = otherObject.pos[0] - this.pos[0];

@@ -1,16 +1,20 @@
 (function(root) {
 	var Asteroids = root.Asteroids = (root.Asteroids || {});
 
+
+
 	var Ship = Asteroids.Ship = function(pos) {
+		// Call parent class's constructor
 		Asteroids.MovingObject.call(this, pos,
 										  [0,0],
 										  Ship.RADIUS,
 										  Ship.COLOR);
+
 		this.direction = 0; // Orientation angle (positive clockwise from +x)
 		
-		this.canFire = true;
-		
+		// Set weapon cooldown timer
 		var self = this;
+		this.canFire = true;
 		this.intervalID = setInterval(function() {
 			self.canFire = true;
 		}, Ship.COOLDOWN);
@@ -18,6 +22,9 @@
 
 	Ship.inherits(Asteroids.MovingObject);
 
+
+
+	// Constants
 	Ship.RADIUS = 10;
 	Ship.COLOR = "lightGray";
 	Ship.FORWARD_IMPULSE = 5/1; // 5 pixels/second per impulse
@@ -25,8 +32,10 @@
 	Ship.TURN_IMPULSE = 10 * (Math.PI / 180); // 10 deg per impulse
 	Ship.COOLDOWN = 200; // 0.2 seconds
 
+
+
 	Ship.prototype.draw = function(ctx) {
-		// Show collision circle
+		// Draw collision circle
 		ctx.strokeStyle = this.color;
 		ctx.lineWidth = 1;
 
@@ -43,7 +52,7 @@
 
 		ctx.stroke();
 		
-		// Make a triangular ship pointing in direction angle		
+		// Draw triangular ship pointing in direction angle		
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
 
@@ -61,15 +70,16 @@
 		});
 
 		ctx.fill();
-
 	};
 
-	// Impulse is [dVx, dVy, dAngle]
+
 	Ship.prototype.power = function(impulse) {
+		// Impulse is [dVx, dVy, dAngle]
 		this.vel[0] += impulse[0];
 		this.vel[1] += impulse[1];
 		this.direction = (this.direction + impulse[2] + 2 * Math.PI) % (2 * Math.PI);
 	};
+
 
 	Ship.prototype.move = function(interval, dimX, dimY) {
 		Asteroids.MovingObject.prototype.move.call(this, interval, dimX, dimY);
@@ -78,6 +88,7 @@
 		this.pos[0] = (this.pos[0] + dimX) % dimX;
 		this.pos[1] = (this.pos[1] + dimY) % dimY;
 	};
+
 
 	Ship.prototype.getImpulse = function(cmd) {
 		// Impulse is [dVx, dVy, dAngle]
@@ -102,6 +113,7 @@
 
 		return impulse;
 	};
+
 
 	Ship.prototype.fireBullet = function() {		
 		this.canFire = false;
