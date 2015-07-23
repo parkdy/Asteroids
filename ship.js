@@ -11,6 +11,8 @@
 										  Ship.COLOR);
 
 		this.direction = 0; // Orientation angle (positive clockwise from +x)
+		this.shieldRemaining = Ship.SHIELD_CAPACITY;
+		this.shieldOn = false;
 		
 		// Set weapon cooldown timer
 		var self = this;
@@ -32,25 +34,16 @@
 	Ship.TURN_IMPULSE = 10 * (Math.PI / 180); // 10 deg per impulse
 	Ship.COOLDOWN = 200; // 0.2 seconds
 
+	Ship.SHIELD_ON_COLOR = "lightGreen";
+	Ship.SHIELD_OFF_COLOR = "gray";
+	Ship.SHIELD_CAPACITY = 100;
+	Ship.SHIELD_DRAIN_RATE = 5.0/1000; // 5 per second
+
 
 
 	Ship.prototype.draw = function(ctx) {
-		// Draw collision circle
-		ctx.strokeStyle = this.color;
-		ctx.lineWidth = 1;
-
-		ctx.beginPath();
-
-		ctx.arc(
-			this.pos[0],
-			this.pos[1],
-			this.radius,
-			0,
-			2 * Math.PI,
-			false
-		);
-
-		ctx.stroke();
+		// Draw shield circle
+		this.drawShield(ctx);
 		
 		// Draw triangular ship pointing in direction angle		
 		ctx.fillStyle = this.color;
@@ -70,6 +63,30 @@
 		});
 
 		ctx.fill();
+	};
+
+
+	Ship.prototype.drawShield = function(ctx) {
+		if (this.shieldOn) {
+			ctx.strokeStyle = Ship.SHIELD_ON_COLOR;
+		} else {
+			ctx.strokeStyle = Ship.SHIELD_OFF_COLOR;
+		}
+
+		ctx.lineWidth = 1;
+
+		ctx.beginPath();
+
+		ctx.arc(
+			this.pos[0],
+			this.pos[1],
+			this.radius,
+			0,
+			2 * Math.PI,
+			false
+		);
+
+		ctx.stroke();
 	};
 
 
@@ -118,5 +135,20 @@
 	Ship.prototype.fireBullet = function() {		
 		this.canFire = false;
 		return new Asteroids.Bullet(this);
+	};
+
+
+	Ship.prototype.toggleShield = function() {
+		this.shieldOn = !this.shieldOn && this.shieldRemaining > 0;
+	};
+
+
+	Ship.prototype.drainShield = function(interval, fixedDrainAmount) {
+		this.shieldRemaining -= Ship.SHIELD_DRAIN_RATE * interval + fixedDrainAmount;
+
+		if (this.shieldRemaining < 0) {
+			this.shieldRemaining = 0;
+			this.shieldOn = false;
+		}
 	};
 })(this);

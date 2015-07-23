@@ -81,6 +81,13 @@
 		this.ctx.font="20px Sans-Serif";
 		this.ctx.fillStyle="gray"
 		this.ctx.fillText("Score: " + this.score, 20, 30);
+
+		this.ctx.font="16px Sans-Serif";
+		this.ctx.fillText("Shields:", 20, 60);
+		this.ctx.strokeStyle = 'gray';
+		this.ctx.strokeRect(20, 70, 100, 16);
+		this.ctx.fillStyle = "green";
+		this.ctx.fillRect(20, 70, 100 * this.ship.shieldRemaining / Asteroids.Ship.SHIELD_CAPACITY, 16);
 	};
 
 
@@ -116,6 +123,9 @@
 		this.move();
 		this.draw();
 		this.checkCollisions();
+		if (ship.shieldOn) {
+			ship.drainShield(this.interval, 0);
+		}
 	};
 
 
@@ -134,15 +144,22 @@
 	Game.prototype.checkCollisions = function() {
 		// Check collisions between ship and asteroids
 		var self = this;
-		this.asteroids.forEach(function(asteroid) {
+		for (var i = 0; i < this.asteroids.length; i++) {
+			var asteroid = self.asteroids[i];
 			if (self.ship.isCollidedWith(asteroid)) {
-				self.stop();
-				if (confirm("You lost! Humanity is doomed!\nDo you want to try again?")) {
-					self.reset();
-					self.start();
+				if (self.ship.shieldOn) {
+					self.ship.vel[0] += asteroid.vel[0] - self.ship.vel[0];
+					self.ship.vel[1] += asteroid.vel[1] - self.ship.vel[1];
+					self.removeAsteroid(i);
+				} else {
+					self.stop();
+					if (confirm("You lost! Humanity is doomed!\nDo you want to try again?")) {
+						self.reset();
+						self.start();
+					}
 				}
 			}
-		});
+		};
 		
 		// Check collisions between bullets and asteroids
 		this.checkBulletHits();
@@ -194,7 +211,7 @@
 		this.paused = true;
 		
 		// Unbind ship controls
-		["up" , "down", "left", "right", "space"].forEach(function (k) {
+		["up" , "down", "left", "right", "space", "s"].forEach(function (k) {
 			key.unbind(k);
 		});
 							
@@ -219,10 +236,14 @@
 		var self = this;
 		
 		// For each key, prevent the default action (e.g. page scrolling)
-		["up" , "down", "left", "right", "space"].forEach(function (k) {
+		["up" , "down", "left", "right", "space", "s"].forEach(function (k) {
 			key(k, function() {
 				return false;
 			});
+		});
+
+		key("s", function() {
+			ship.toggleShield();
 		});
 	};
 
